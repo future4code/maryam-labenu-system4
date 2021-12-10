@@ -1,35 +1,39 @@
-// import { connection } from "../data/connection"
-// import { Request, Response } from "express"
-// import { Docente } from "../types"
+import { connection } from "../../data/connection"
+import { Request, Response } from "express"
+import { Docente } from "../../types"
 
-// export const criarDocente = async (req: Request, res: Response): Promise<any> => {
-//     const {name, email, birth_date, class_id, espacialidades} = req.body;
+export default async function criarDocente (req: Request, res: Response): Promise<void> {
+    const { nome, email, data_nasc, turma_id } = req.body
     
-//     const formatDate = (date: string) => {
-//         const day = date.split('/')[0];
-//         const month = date.split('/')[1];
-//         const year = date.split('/')[2];
-//         return `${year}/${month}/${day}`;
-//     }
-//     const birthDateFormated = formatDate(birth_date);
+    const formatarData = (date: string) => {
+        const dia = date.split('/')[0];
+        const mes = date.split('/')[1];
+        const ano = date.split('/')[2];
+        return `${ano}/${mes}/${dia}`;
+    }
+
+    const dataDeNascimentoFormatada = formatarData(data_nasc)
+
+    try {
+        if(!nome || !email || !data_nasc || !turma_id) { 
+            throw new Error("Está faltando parâmetros!")
 
 
-//     try {
-//         if(!name || !email || !birth_date || !class_id || !espacialidades){
-//             throw new Error('Dados insuficientes');
-//         }
-//         const result = await connection('tbl_teachers').insert({
-//             id: Date.now().toString().slice(3),
-//             name,
-//             email,
-//             birth_date: birthDateFormated,
-//             class_id,
-//             espacialidades
-//         })
+        }
 
-//         res.status(201).send(result);
-//     }
-//     catch (error: any) {
-//         res.status(400).send({Message: error});
-//     }
-// }
+        const docentes: Docente = {
+            id: Date.now().toString(),
+            nome,
+            email,
+            data_nasc: dataDeNascimentoFormatada,
+            turma_id
+        }
+
+        await connection("LabeSystem_Docente").insert(docentes)
+          
+        res.status(200).send("Docente criado com sucesso!")
+
+    } catch (error: any) {
+        res.status(400).send({ message: error.message })
+    }
+}
