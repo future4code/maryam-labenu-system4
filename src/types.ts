@@ -21,5 +21,5 @@ export type Docente = {
   email: string;
   data_nasc: string;
   turma_id: number;
-  especialidades: string[];
+  especialidades?: string[];
 };
