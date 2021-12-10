@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import { connection } from "../data/connection";
 import { Estudante } from "../types";
 
-export default async function createStudent(
+export default async function criarEstudante(
   req: Request,
   res: Response
 ): Promise<void> {
   try {
-    const { nome, email, data_nasc, turma_id, hobbies } = req.body;
+    const { nome, email, data_nasc, turma_id } = req.body;
 
-    if (!nome || !email || !data_nasc || turma_id || !hobbies) {
+    if (!nome || !email || !data_nasc || !turma_id) {
       throw new Error("Está faltando parâmetros.");
     }
 
@@ -19,10 +19,9 @@ export default async function createStudent(
       email,
       data_nasc,
       turma_id,
-      hobbies,
     };
 
-    await connection("Estudante").insert(estudantes);
+    await connection("LabeSystem_Estudante").insert(estudantes);
     res.status(200).send("Estudante criado com sucesso!");
   } catch (error: any) {
     res.status(400).send({ message: error.message });
