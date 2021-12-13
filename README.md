@@ -8,11 +8,11 @@ https://documenter.getpostman.com/view/17589581/UVR5qUUG
 
 ## Tecnologias Utilizadas
 
-Dotenv
-Express
-Knex
-Mysql
-Node.js
+Dotenv,
+Express,
+Knex,
+Mysql,
+Node.js,
 Typescript
 
 ## Desenvolvido por
