@@ -11,7 +11,7 @@ export default async function mudarEstudanteDeTurma (req: Request, res: Response
         .where("id", id)
     }
 
-    await atualizarEstudante (req.params.id, req.body.turma_id)
+    await atualizarEstudante (req.params.id, req.body.turma_id);
 
     res.status(200).send("Sucesso! O estudante mudou de turma!")
 
